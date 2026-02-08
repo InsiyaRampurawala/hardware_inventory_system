@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- SIDEBAR -->
+<div class="col-md-2 sidebar p-3">
+<h4><i class="fa fa-toolbox"></i> Unique Tools & Hardware </h4>
+<hr>
+<a href="dashboard.html">Dashboard</a>
+<a href="inventory.html">Inventory</a>
+<a href="billing.html">Billing</a>
+<a href="reports.html">Reports</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="col-md-10 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 top-header">
+
+    <div>
+        <h3>Inventory & Billing Manager</h3>
+        <small class="text-muted">Welcome, Admin User</small>
+    </div>
+
+    <div>
+        
+<button class="btn" style="background:#7F543D;color:white;" data-bs-toggle="modal" data-bs-target="#logoutModal">
+    <i class="fa fa-sign-out-alt"></i> Sign Out
+        </button>
+
+    </div>
+
+</div>
+
+
+<h3 class="mb-4">Dashboard</h3>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card card-primary p-3 shadow">
+<h5>Total Inventory</h5>
+<h2>287</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card card-secondary p-3 shadow">
+<h5>Total Revenue</h5>
+<h2>₹346998</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card card-accent p-3 shadow">
+<h5>Profit</h5>
+<h2>₹197579</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card p-3 shadow">
+<h5>Low Stock</h5>
+<h2>3</h2>
+</div>
+</div>
+
+</div>
+
+<hr>
+
+<div class="row">
+
+<div class="col-md-6">
+<h5 class="mb-3">Inventory Category</h5>
+<canvas id="barChart"></canvas>
+</div>
+
+<div class="col-md-6">
+<h5 class="mb-3">Revenue Overview</h5>
+<canvas id="lineChart"></canvas>
+</div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="logoutModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header" style="background:#335765;color:white;">
+        <h5 class="modal-title">Confirm Logout</h5>
+      </div>
+
+      <div class="modal-body">
+        Are you sure you want to sign out?
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="login.html" class="btn" style="background:#7F543D;color:white;">Logout</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+new Chart(document.getElementById("barChart"),{
+type:'bar',
+data:{
+labels:["Hand Tools","Motors","Cutters","Fasteners"],
+datasets:[{
+label:"Stock Quantity",
+data:[120,40,60,90],
+backgroundColor:"#74A8A4"
+}]
+}
+});
+
+new Chart(document.getElementById("lineChart"),{
+type:'line',
+data:{
+labels:["Jan","Feb","Mar","Apr"],
+datasets:[{
+label:"Monthly Revenue",
+data:[200000,300000,150000,280000],
+borderColor:"#335765",
+fill:false
+}]
+}
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

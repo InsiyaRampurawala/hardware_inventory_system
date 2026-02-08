@@ -1,0 +1,50 @@
+body{
+    background:#DBE2DC;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Sidebar */
+.sidebar{
+    background:#335765;
+    color:white;
+    height:100vh;
+}
+
+.sidebar a{
+    color:white;
+    padding:10px;
+    display:block;
+    text-decoration:none;
+}
+
+.sidebar a:hover{
+    background:#74A8A4;
+}
+
+/* Cards */
+
+.card-primary{
+    background:#74A8A4;
+    color:white;
+}
+
+.card-secondary{
+    background:#B6D9E0;
+}
+
+.card-accent{
+    background:#7F543D;
+    color:white;
+}
+
+.top-header{
+background:#B6D9E0;
+padding:10px;
+border-radius:8px;
+}
+.btn:focus,
+.btn:active,
+button:focus{
+outline:none !important;
+box-shadow:none !important;
+}
