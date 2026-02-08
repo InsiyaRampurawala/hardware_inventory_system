@@ -2,16 +2,74 @@
 <html>
 <head>
 <title>Login</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+html, body {
+height:100%;
+margin:0;
+}
+
+body{
+background-image:url('images/login-pg-bg.png');
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+}
+
+/* Overlay */
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.25);
+}
+
+/* Center content */
+
+.login-container{
+position:relative;
+z-index:2;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+.login-card{
+    width:350px;
+    border-radius:12px;
+    background:#DBE2DC;
+    margin-top: 80px;   /* pushes card lower under the title */
+}
+.login-card label{
+    color:#335765;
+    font-weight:500;
+}
+
+</style>
+
+
 </head>
 
 <body>
 
-<div class="container mt-5">
+<div class="overlay"></div>
 
-<h2>Login</h2>
+<div class="login-container">
+
+<div class="card p-4 shadow login-card">
 
 <form>
+
 <div class="mb-3">
 <label>Email</label>
 <input type="email" class="form-control">
@@ -22,9 +80,18 @@
 <input type="password" class="form-control">
 </div>
 
-<button class="btn btn-primary">Login</button>
+<button class="btn w-100" style="background:#7F543D;color:white;">
+Login
+</button>
+
+<div class="d-flex justify-content-between mt-2">
+<a href="#">Forgot Password</a>
+<a href="signup.html">Create Account</a>
+</div>
 
 </form>
+
+</div>
 
 </div>
 
