@@ -86,7 +86,8 @@ Login
 
 <div class="d-flex justify-content-between mt-2">
 <a href="#">Forgot Password</a>
-<a href="signup.html">Create Account</a>
+<a href="register.html?next=enquire.html">Create Account</a>
+
 </div>
 
 </form>
@@ -97,3 +98,12 @@ Login
 
 </body>
 </html>
+<script>
+const params = new URLSearchParams(window.location.search);
+const nextPage = params.get("next") || "dashboard.html";
+
+document.querySelector("form").addEventListener("submit", function(e){
+    e.preventDefault();
+    window.location.href = nextPage;
+});
+</script>
