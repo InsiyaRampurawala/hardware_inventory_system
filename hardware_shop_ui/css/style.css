@@ -1,6 +1,6 @@
 body{
-    background:#DBE2DC;
-    font-family: 'Segoe UI', sans-serif;
+    background:#dcdfdf!important;
+    font-family:'Segoe UI', sans-serif;
 }
 
 /* Sidebar */
@@ -38,7 +38,7 @@ body{
 }
 
 .top-header{
-background:#B6D9E0;
+background:#7ba8a4;
 padding:10px;
 border-radius:8px;
 }
@@ -47,4 +47,61 @@ border-radius:8px;
 button:focus{
 outline:none !important;
 box-shadow:none !important;
+}
+.inventory-img:hover{
+cursor:pointer;
+transform:scale(1.1);
+}
+
+.inventory-toolbar{
+display:flex;
+gap:20px;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search-box{
+flex:2;
+padding:12px;
+}
+
+.category-box{
+background:#335765;
+flex:1;
+padding:12px;
+}
+
+.add-btn{
+background:#74A8A4 !important;
+color:white !important;
+border:none;
+}
+
+.inventory-header th{
+background:#335765 !important;
+color:white !important;
+}
+
+.modal-content.add-modal{
+background:#DBE2DC !important;
+}
+
+.modal-content.add-modal .modal-header{
+background:#335765 !important;
+color:white !important;
+}
+
+.modal-content.add-modal .modal-body{
+background:#DBE2DC !important;
+}
+
+.modal-content.add-modal .modal-footer{
+background:#DBE2DC !important;
+}
+
+
+.table{
+background:white;
+border-radius:10px;
+overflow:hidden;
 }
