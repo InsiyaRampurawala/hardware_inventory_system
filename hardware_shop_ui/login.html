@@ -99,11 +99,13 @@ Login
 </body>
 </html>
 <script>
-const params = new URLSearchParams(window.location.search);
-const nextPage = params.get("next") || "dashboard.html";
-
 document.querySelector("form").addEventListener("submit", function(e){
     e.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    const nextPage = params.get("next") || "index.html";
+
     window.location.href = nextPage;
 });
 </script>
+
