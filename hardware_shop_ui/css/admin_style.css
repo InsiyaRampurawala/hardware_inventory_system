@@ -5,9 +5,8 @@ body{
 
 /* Sidebar */
 .sidebar{
-    background:#335765;
-    color:white;
-    height:100vh;
+background:#335765;
+color:white;
 }
 
 .sidebar a{
@@ -99,9 +98,46 @@ background:#DBE2DC !important;
 background:#DBE2DC !important;
 }
 
+#productTable{
+    table-layout: fixed;
+    width: calc(100vw - 260px);
+    font-size: 13px;
+}
 
-.table{
-background:white;
-border-radius:10px;
-overflow:hidden;
+#productTable th, #productTable td{
+    white-space: normal;
+    word-break: break-word;
+    padding:8px;
+}
+
+#productTable th:nth-child(4),
+#productTable td:nth-child(4){
+    max-width:180px;
+}
+
+#productTable th:nth-child(1),
+#productTable td:nth-child(1){
+    width:70px;
+}
+
+#productTable th:last-child,
+#productTable td:last-child{
+    width:90px;
+}
+
+
+.inventory-img{
+    width:40px;
+    height:40px;
+    object-fit:cover;
+}
+.inventory-toolbar{
+display:flex;
+gap:20px;
+align-items:center;
+margin-bottom:25px;
+width: calc(100vw - 260px);
+}
+body{
+overflow-x:hidden;
 }
