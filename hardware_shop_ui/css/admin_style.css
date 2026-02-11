@@ -150,9 +150,11 @@ background:#DBE2DC !important;
 
 #productTable{
     table-layout: fixed;
-    width: calc(100vw - 260px);
+    width: 100%;
     font-size: 13px;
 }
+
+
 
 #productTable th, #productTable td{
     white-space: normal;
@@ -182,12 +184,57 @@ background:#DBE2DC !important;
     object-fit:cover;
 }
 .inventory-toolbar{
-display:flex;
-gap:20px;
-align-items:center;
-margin-bottom:25px;
-width: calc(100vw - 260px);
+    display:flex;
+    gap:15px;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;        /* prevents overflow */
 }
+
+.search-box{
+    flex: 1 1 400px;       /* grows but stays controlled */
+}
+
+.category-box{
+    flex: 0 0 200px;       /* fixed width */
+}
+
+.add-btn{
+    background:#74A8A4 !important;
+    color:white !important;
+    border:none;
+    white-space:nowrap;
+}
+
 body{
 overflow-x:hidden;
 }
+.signout-btn{
+    background:#7F543D !important;
+    color:white !important;
+    border:none !important;
+    outline:none !important;
+    box-shadow:none !important;
+    padding:8px 18px;
+    border-radius:6px;
+    font-weight:500;
+    cursor:pointer;
+}
+
+.content-area{
+    margin-left:220px;   /* same as sidebar width */
+    width: calc(100% - 220px);
+}
+/* Fix content alignment beside fixed sidebar */
+
+
+/* Ensure table card takes full width */
+.history-card{
+    width:100%;
+}
+
+/* Remove extra right overflow */
+body{
+    overflow-x:hidden;
+}
+
