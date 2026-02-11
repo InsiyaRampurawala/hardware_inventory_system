@@ -124,13 +124,12 @@ Register
 
 </body>
 </html>
+
 <script>
 document.querySelector("form").addEventListener("submit", function(e){
     e.preventDefault();
-
-    const params = new URLSearchParams(window.location.search);
-    const nextPage = params.get("next") || "index.html";
-
-    window.location.href = nextPage;
+    window.location.href = "enquire.html";
 });
 </script>
+
+

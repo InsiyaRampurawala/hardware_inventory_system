@@ -103,9 +103,18 @@ document.querySelector("form").addEventListener("submit", function(e){
     e.preventDefault();
 
     const params = new URLSearchParams(window.location.search);
-    const nextPage = params.get("next") || "index.html";
 
-    window.location.href = nextPage;
+    const name = params.get("name");
+    const image = params.get("image");
+    const desc = params.get("desc");
+
+    if(name){
+        window.location.href =
+        `enquire.html?name=${encodeURIComponent(name)}&image=${image}&desc=${encodeURIComponent(desc)}`;
+    } else {
+        window.location.href = "index.html";
+    }
 });
 </script>
+
 

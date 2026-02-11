@@ -70,19 +70,15 @@ body{
 
 <h3>Product Enquiry</h3>
 
-<p class="mb-2">You are enquiring about:</p>
+<h5>You are enquiring about the product</h5>
+<h4 id="productTitle"></h4>
+<p id="productDescription"></p>
 
-<h5 class="mb-3">Drill Machine</h5>
-
-<p class="mb-4">
-Our team will assist you with pricing, availability, and delivery details.
-</p>
-
-<a
-href="https://wa.me/919009667153?text=Hello%20I%20am%20interested%20in%20the%20Drill%20Machine.%20Please%20share%20details."
-class="btn-whatsapp">
-Enquire Now on WhatsApp
+<a id="whatsappBtn" class="btn btn-success">
+Enquire on WhatsApp
 </a>
+
+
 
 </div>
 
@@ -90,3 +86,16 @@ Enquire Now on WhatsApp
 
 </body>
 </html>
+<script>
+const product = JSON.parse(localStorage.getItem("selectedProduct"));
+
+if(product){
+
+    document.getElementById("productTitle").innerText = product.name;
+    document.getElementById("productDescription").innerText = product.desc;
+
+    document.getElementById("whatsappBtn").href =
+    `https://wa.me/919009667153?text=Hello, I am interested in ${product.name}`;
+}
+</script>
+
