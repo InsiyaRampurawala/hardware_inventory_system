@@ -1,0 +1,29 @@
+<div class="container mt-5">
+<h2 class="mb-4">All Products</h2>
+
+<div class="row g-4">
+
+{% for product in products %}
+
+<div class="col-md-3">
+<div class="card h-100 shadow">
+
+<img src="{{ product.image.url }}" class="card-img-top" style="height:200px;object-fit:cover;">
+
+<div class="card-body">
+
+<h5 class="card-title">{{ product.name }}</h5>
+
+<a href="{% url 'product_detail' product.id %}" 
+class="btn btn-sm" style="background:#7F543D;color:white;">
+View Details
+</a>
+
+</div>
+</div>
+</div>
+
+{% endfor %}
+
+</div>
+</div>
