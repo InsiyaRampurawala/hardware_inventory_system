@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Inventory</title>
+{% load static %}
 
 <link rel="stylesheet" href="css/admin_style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,15 +14,12 @@
 .header-bar{background:#DBE2DC;padding:20px;border-radius:10px}
 /* Inventory Page Sidebar Only */
 .inventory-sidebar{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 200px;
-    height: 100vh;
+    
     background:#335765;
     color:white;
-    padding-top:20px;
+    min-height:100vh;
 }
+
 
 .inventory-sidebar a{
     color:white;
@@ -43,19 +41,35 @@
 <div class="container-fluid">
 <div class="row">
 
-<div class="inventory-sidebar p-3">
+<!-- Sidebar -->
+<div class="col-md-2 inventory-sidebar p-3">
+
 <h4>Unique Tools and Hardware</h4>
 <hr>
 <a href="dashboard.html">Dashboard</a>
 <a href="inventory.html">Inventory</a>
 <a href="billing.html">Billing</a>
 <a href="reports.html">Reports</a>
+<a href="invoice_history.html">Invoice History</a>
+
 </div>
 
-<div class="p-4" style="margin-left:210px;">
+<div class="col-md-10 p-4">
 
-<h2>Hardware Tools Inventory</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="mb-0">Hardware Tools Inventory</h2>
+
+   <button class="signout-btn">
+    <i class="fa fa-sign-out-alt me-2"></i> Sign Out
+</button>
+
+
+</div>
+
 <p class="text-muted">Manage your stock and track inventory levels</p>
+
+
 
 <!-- ONE LINE BAR -->
 
@@ -78,8 +92,8 @@ onchange="filterCategory()">
 
 </div>
 
-
-<table class="table table-bordered table-hover" id="productTable">
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="productTable">
 <thead class="inventory-header">
 <tr>
 <th>Image</th>
@@ -402,6 +416,11 @@ function markOutOfStock(btn){
     }
 }
 
+function signOut(){
+    if(confirm("Are you sure you want to sign out?")){
+        window.location.href = "login.html";
+    }
+}
 
 </script>
 
