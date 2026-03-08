@@ -209,37 +209,6 @@ background:#DBE2DC !important;
 body{
 overflow-x:hidden;
 }
-<<<<<<< HEAD
-.signout-btn{
-    background:#7F543D !important;
-    color:white !important;
-    border:none !important;
-    outline:none !important;
-    box-shadow:none !important;
-    padding:8px 18px;
-    border-radius:6px;
-    font-weight:500;
-    cursor:pointer;
-}
-
-.content-area{
-    margin-left:220px;   /* same as sidebar width */
-    width: calc(100% - 220px);
-}
-/* Fix content alignment beside fixed sidebar */
-
-
-/* Ensure table card takes full width */
-.history-card{
-    width:100%;
-}
-
-/* Remove extra right overflow */
-body{
-    overflow-x:hidden;
-}
-
-=======
 .auth-bg{
 position:relative;
 min-height:100vh;
@@ -270,4 +239,3 @@ width:400px;
 }
 
 
->>>>>>> 3526b619105115987b31d95ad6d0a20fd5959827
