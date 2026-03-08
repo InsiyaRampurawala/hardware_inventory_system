@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Inventory</title>
+
+
+<link rel="stylesheet" href="css/admin_style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+.inventory-img{width:50px;cursor:pointer}
+.header-bar{background:#DBE2DC;padding:20px;border-radius:10px}
+/* Inventory Page Sidebar Only */
+.inventory-sidebar{
+    
+    background:#335765;
+    color:white;
+    min-height:100vh;
+}
+
+
+.inventory-sidebar a{
+    color:white;
+    padding:10px;
+    display:block;
+    text-decoration:none;
+}
+
+.inventory-sidebar a:hover{
+    background:#74A8A4;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- Sidebar -->
+<div class="col-md-2 inventory-sidebar p-3">
+
+<h4>Unique Tools and Hardware</h4>
+<hr>
+<a href="dashboard.html">Dashboard</a>
+<a href="inventory.html">Inventory</a>
+<a href="billing.html">Billing</a>
+<a href="reports.html">Reports</a>
+<a href="invoice_history.html">Invoice History</a>
+
+</div>
+
+<div class="col-md-10 p-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2 class="mb-0">Hardware Tools Inventory</h2>
+
+   <button class="signout-btn">
+    <i class="fa fa-sign-out-alt me-2"></i> Sign Out
+</button>
+
+
+</div>
+
+<p class="text-muted">Manage your stock and track inventory levels</p>
+
+
+
+<!-- ONE LINE BAR -->
+
+<div class="inventory-toolbar">
+
+<input class="form-control search-box" id="searchInput"
+placeholder="Search by product name or ID..." onkeyup="searchProduct()">
+
+<select id="categoryFilter" class="form-select category-box"
+onchange="filterCategory()">
+<option value="">All Categories</option>
+<option>Hand Tools</option>
+<option>Power Tools</option>
+<option>End-Mill</option>
+</select>
+
+<button class="btn add-btn" data-bs-toggle="modal" data-bs-target="#addModal">
+<i class="fa fa-plus"></i> Add New Item
+</button>
+
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover" id="productTable">
+<thead class="inventory-header">
+<tr>
+<th>Image</th>
+<th>Product ID</th>
+<th>Product Name</th>
+<th>Description</th>
+<th>Category ID</th>
+<th>Category</th>
+<th>Size</th>
+<th>Quantity</th>
+<th>Status</th>
+<th>Price ₹</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tr>
+<td><img src="images/tool1.jpg" class="inventory-img" onclick="previewImage(this)"></td>
+<td>1</td>
+<td>Hammer</td>
+<td>Hammer tool, easy to use. Multiple sizes available</td>
+<td>HT01</td>
+<td>Hand Tools</td>
+<td>12</td>
+<td>50</td>
+<td><span class="badge bg-success">In Stock</span></td>
+<td>₹250</td>
+<td>
+<i class="fa fa-pen text-primary" onclick="openEditModal(this)"></i>
+<i class="fa fa-box-open text-warning ms-3" onclick="markOutOfStock(this)" title="Mark Out of Stock"></i>
+</td>
+</tr>
+
+<tr>
+<td><img src="images/drill.jpg" class="inventory-img" onclick="previewImage(this)"></td>
+<td>2</td>
+<td>Drill Machine</td>
+<td>Drill Machine easy to use. Multiple sizes available</td>
+<td>PT02</td>
+<td>Power Tools</td>
+<td>18</td>
+<td>2</td>
+<td><span class="badge bg-warning">Low Stock</span></td>
+<td>₹3500</td>
+<td>
+<i class="fa fa-pen text-primary" onclick="openEditModal(this)"></i>
+<i class="fa fa-box-open text-warning ms-3" onclick="markOutOfStock(this)" title="Mark Out of Stock"></i>
+</td>
+</tr>
+
+</table>
+
+</div>
+</div>
+</div>
+
+<!-- ADD MODAL -->
+
+<div class="modal fade" id="addModal">
+<div class="modal-dialog modal-lg">
+<div class="modal-content add-modal">
+<div class="modal-header"><h5>Add Product</h5></div>
+
+<div class="modal-body">
+
+<div class="row">
+
+<div class="col-md-6">
+<label>Product ID</label>
+<input id="pid" type="number" class="form-control">
+</div>
+
+<div class="col-md-6">
+<label>Product Name</label>
+<input id="pname" class="form-control">
+</div>
+
+<div class="col-md-6">
+<label>Description</label>
+<textarea id="pdesc" class="form-control"></textarea>
+</div>
+
+<div class="col-md-6">
+<label>Category ID</label>
+<input id="pcid" class="form-control">
+</div>
+
+<div class="col-md-6">
+<label>Category</label>
+<select id="pcat" class="form-select">
+<option>Hand Tools</option>
+<option>Power Tools</option>
+<option>End-Mill</option>
+</select>
+</div>
+
+<div class="col-md-4">
+<label>Size</label>
+<input id="psize" type="number" class="form-control">
+</div>
+
+<div class="col-md-4">
+<label>Quantity</label>
+<input id="pqty" type="number" class="form-control">
+</div>
+
+<div class="col-md-4">
+<label>Price ₹</label>
+<input id="pprice" type="number" class="form-control">
+</div>
+
+<div class="col-md-12">
+<label>Product Image</label>
+<input type="file" id="pimage" class="form-control">
+</div>
+
+</div>
+</div>
+
+
+<div class="modal-footer">
+<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+<button class="btn btn-success" onclick="addProduct()">Save</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- EDIT MODAL -->
+
+<div class="modal fade" id="editModal">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header"><h5>Edit Product</h5></div>
+
+<div class="modal-body">
+
+<div class="row">
+
+<div class="col-md-12 mb-2">
+<label class="form-label">Product Image</label>
+<input type="file" id="editImage" class="form-control">
+<img id="editPreview" width="80" class="mb-2">
+</div>
+
+<div class="col-md-6 mb-2">
+<label class="form-label">Product Name</label>
+<input id="editName" class="form-control">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Description</label>
+<textarea id="editDescription" class="form-control"></textarea>
+</div>
+
+<div class="col-md-6 mb-2">
+<label class="form-label">Category</label>
+<select id="editCategory" class="form-select">
+<option>Hand Tools</option>
+<option>Power Tools</option>
+<option>End-Mill</option>
+</select>
+</div>
+
+<div class="col-md-4 mb-2">
+<label class="form-label">Size</label>
+<input id="editSize" type="number" class="form-control">
+</div>
+
+<div class="col-md-4 mb-2">
+<label class="form-label">Quantity</label>
+<input id="editQty" type="number" class="form-control">
+</div>
+
+<div class="col-md-4 mb-2">
+<label class="form-label">Price (₹)</label>
+<input id="editPrice" type="number" class="form-control">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="modal-footer">
+<button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+<button class="btn btn-primary" onclick="saveEdit()">Save</button>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+
+let currentRow;
+
+function previewImage(img){
+window.open(img.src);
+}
+
+function deleteRow(btn){
+if(confirm("Delete product?")){
+btn.parentNode.parentNode.remove();
+}
+}
+
+function openEditModal(btn){
+
+currentRow = btn.parentNode.parentNode;
+let cells = currentRow.getElementsByTagName("td");
+
+// Load existing values into modal
+
+editName.value = cells[2].innerText;
+editDescription.value = cells[3].innerText;
+editCategory.value = cells[5].innerText;
+editSize.value = cells[6].innerText;
+editQty.value = cells[7].innerText;
+editPrice.value = cells[9].innerText.replace("₹","");
+
+// Show modal
+
+new bootstrap.Modal(document.getElementById("editModal")).show();
+
+}
+
+
+function saveEdit(){
+let cells=currentRow.children;
+cells[2].innerText=editName.value;
+cells[3].innerText = editDescription.value;
+cells[4].innerText=editCategory.value;
+cells[5].innerText=editSize.value;
+cells[6].innerText=editQty.value;
+cells[8].innerText="₹"+editPrice.value;
+bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+}
+
+function addProduct(){
+
+let table = document.getElementById("productTable");
+let row = table.insertRow();
+
+// Image handling
+let image = "-";
+if (pimage.files && pimage.files[0]) {
+    let url = URL.createObjectURL(pimage.files[0]);
+    image = `<img src="${url}" class="inventory-img" onclick="previewImage(this)">`;
+}
+
+// Status
+let status = pqty.value <= 5
+    ? '<span class="badge bg-warning">Low Stock</span>'
+    : '<span class="badge bg-success">In Stock</span>';
+
+// Insert row data
+row.innerHTML = `
+<td>${image}</td>
+<td>${pid.value}</td>
+<td>${pname.value}</td>
+<td>${pdesc.value}</td>
+<td>${pcid.value}</td>
+<td>${pcat.value}</td>
+<td>${psize.value}</td>
+<td>${pqty.value}</td>
+<td>${status}</td>
+<td>₹${pprice.value}</td>
+<td>
+<i class="fa fa-pen text-primary" onclick="openEditModal(this)"></i>
+<i class="fa fa-box-open text-warning ms-3" onclick="markOutOfStock(this)" title="Mark Out of Stock"></i>
+</td>
+`;
+
+
+// Close modal
+bootstrap.Modal.getInstance(document.getElementById('addModal')).hide();
+
+// Clear form fields (IMPORTANT — now outside the IF)
+pid.value="";
+pname.value="";
+pcid.value="";
+psize.value="";
+pqty.value="";
+pprice.value="";
+pimage.value="";
+pcat.selectedIndex=0;
+pdesc.value="";
+
+}
+
+function searchProduct(){
+let input=searchInput.value.toLowerCase();
+document.querySelectorAll("#productTable tr").forEach((row,i)=>{
+if(i==0)return;
+row.style.display=row.innerText.toLowerCase().includes(input)?"":"none";
+});
+}
+
+function filterCategory(){
+let filter=categoryFilter.value.toLowerCase();
+document.querySelectorAll("#productTable tr").forEach((row,i)=>{
+if(i==0)return;
+let cat=row.children[4].innerText.toLowerCase();
+row.style.display=(filter==""||cat==filter)?"":"none";
+});
+}
+function markOutOfStock(btn){
+
+    if(confirm("Mark this product as Out of Stock?")){
+
+        let row = btn.parentNode.parentNode;
+        let cells = row.children;
+
+        cells[8].innerHTML = '<span class="badge bg-danger">Out of Stock</span>';
+        cells[7].innerText = "0";
+
+        row.classList.add("table-secondary");
+    }
+}
+
+function signOut(){
+    if(confirm("Are you sure you want to sign out?")){
+        window.location.href = "login.html";
+    }
+}
+
+</script>
+
+</body>
+</html>

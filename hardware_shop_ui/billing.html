@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Billing</title>
+{% load static %}
+
+<link rel="stylesheet" href="css/admin_style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+.bill-card{
+background:#DBE2DC;
+border-radius:15px;
+padding:20px;
+}
+
+.total-box{
+background:#B6D9E0;
+padding:20px;
+border-radius:15px;
+}
+
+.qty-btn{
+width:35px;
+}
+</style>
+
+</head>
+
+<body style="background:#DBE2DC">
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- Sidebar -->
+<div class="col-md-2 sidebar p-3">
+<h4><i class="fa fa-toolbox"></i>Unique Tools and Hardware </h4>
+<hr>
+<a href="dashboard.html">Dashboard</a>
+<a href="inventory.html">Inventory</a>
+<a href="billing.html">Billing</a>
+<a href="reports.html">Reports</a>
+
+
+<a href="invoice_history.html">Invoice History</a>
+
+</div>
+
+<div class="col-md-10 p-4">
+
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Billing System</h3>
+
+    <button class="signout-btn" onclick="signOut()">
+        <i class="fa fa-sign-out-alt me-2"></i> Sign Out
+    </button>
+</div>
+
+<div class="card p-4 mb-4" style="border-radius:15px; border-top:5px solid #335765;">
+
+<div class="d-flex justify-content-between">
+
+<div>
+<h2 style="color:#335765;">Unique Hardware and Tools </h2>
+<p class="text-muted mb-0">409, MIDC, Rabale, Navi Mumbai-400701</p>
+<p class="text-muted">Phone: +91 8108982572</p>
+</div>
+
+<div class="text-end">
+<p class="mb-1">Invoice #</p>
+<h3 style="color:#7F543D;" id="invoiceNumber">INV-387127</h3>
+</div>
+
+</div>
+
+<br>
+
+<div class="row">
+
+<div class="col-md-4">
+<label>Customer Name</label>
+<input type="text" id="customerName" class="form-control" placeholder="Enter Name">
+</div>
+
+<div class="col-md-4">
+<label>Phone Number</label>
+<input type="text" id="customerPhone" class="form-control" placeholder="Enter Phone">
+</div>
+
+<div class="col-md-4">
+<label>Date</label>
+<input type="date" id="invoiceDate" class="form-control">
+</div>
+
+</div>
+
+<br>
+
+<h5>Add Product</h5>
+
+<input type="text" class="form-control" placeholder="Search products by name or code...">
+
+</div>
+
+
+<div class="bill-card">
+
+    <!-- INVOICE PREVIEW MODAL -->
+
+<div class="modal fade" id="invoicePreviewModal">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+<div class="modal-content">
+
+<div class="modal-header" style="background:#335765;color:white;">
+<h5>Invoice Preview</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body" id="invoicePreviewContent">
+<!-- Invoice HTML will appear here -->
+</div>
+
+</div>
+</div>
+</div>
+
+<h4>Invoice Items</h4>
+
+<table class="table align-middle">
+<thead>
+<tr>
+<th>Item</th>
+<th>Quantity</th>
+<th>Price</th>
+<th>Total</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="billTable">
+
+<tr>
+<td>Rotary Hammer Drill</td>
+
+<td>
+<button class="btn btn-outline-secondary qty-btn" onclick="changeQty(this,-1)">-</button>
+<span class="mx-2 qty">1</span>
+<button class="btn btn-outline-secondary qty-btn" onclick="changeQty(this,1)">+</button>
+</td>
+
+<td class="price">145</td>
+<td class="lineTotal">145</td>
+
+<td>
+<i class="fa fa-trash text-danger" onclick="deleteItem(this)"></i>
+</td>
+</tr>
+
+</tbody>
+</table>
+
+<div class="row">
+
+<div class="col-md-7"></div>
+
+<div class="col-md-5">
+
+<div class="total-box">
+
+<p>Subtotal: ₹ <span id="subtotal">145</span></p>
+<p>GST (18%): ₹ <span id="gst">26.10</span></p>
+<hr>
+<h4>Grand Total: ₹ <span id="grandTotal">171.10</span></h4>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<button class="btn" style="background:#7F543D;color:white;" onclick="saveInvoiceData()">
+<i class="fa fa-save"></i> Save Invoice Details
+</button>
+
+<button class="btn" style="background:#335765;color:white;" onclick="previewInvoice()">
+<i class="fa fa-eye"></i> Preview Invoice
+</button>
+
+<button class="btn" style="background:#74A8A4;color:white;" onclick="printInvoice()">
+<i class="fa fa-print"></i> Print Invoice
+</button>
+
+<button class="btn btn-success" onclick="sendWhatsAppInvoice()">
+  <i class="fa-brands fa-whatsapp"></i> Send Bill to Customer
+</button>
+
+
+</div>
+</div>
+</div>
+
+<script>
+
+function changeQty(btn, change){
+
+let row = btn.closest("tr");
+let qtySpan = row.querySelector(".qty");
+let price = parseFloat(row.querySelector(".price").innerText);
+
+let qty = parseInt(qtySpan.innerText) + change;
+if(qty<1) return;
+
+qtySpan.innerText = qty;
+row.querySelector(".lineTotal").innerText = qty*price;
+
+calculateTotals();
+}
+
+function deleteItem(btn){
+btn.closest("tr").remove();
+calculateTotals();
+}
+
+function calculateTotals(){
+
+let rows = document.querySelectorAll("#billTable tr");
+let subtotal=0;
+
+rows.forEach(row=>{
+subtotal += parseFloat(row.querySelector(".lineTotal").innerText);
+});
+
+let gst = subtotal*0.18;
+let grand = subtotal+gst;
+
+document.getElementById("subtotal").innerText=subtotal.toFixed(2);
+document.getElementById("gst").innerText=gst.toFixed(2);
+document.getElementById("grandTotal").innerText=grand.toFixed(2);
+}
+
+function sendWhatsAppInvoice(){
+
+let phone = document.getElementById("customerPhone").value;
+let total = document.getElementById("grandTotal").innerText;
+let name = document.getElementById("customerName").value;
+
+let message = `Hello ${name}, Your bill from Unique Tools & Hardware is ₹ ${total}. Thank you for your purchase!`;
+
+window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`);
+}
+
+function generateInvoiceHTML(){
+
+let rows = document.querySelectorAll("#billTable tr");
+let itemsHTML = "";
+
+rows.forEach(row=>{
+    let name = row.children[0].innerText;
+    let qty = row.querySelector(".qty").innerText;
+    let price = row.querySelector(".price").innerText;
+    let total = row.querySelector(".lineTotal").innerText;
+
+    itemsHTML += `
+    <tr>
+        <td>${name}</td>
+        <td>${qty}</td>
+        <td>₹ ${price}</td>
+        <td>₹ ${total}</td>
+    </tr>`;
+});
+
+return `
+<div style="font-family:Segoe UI">
+
+<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #335765;padding-bottom:10px">
+
+<div>
+<h2 style="color:#335765;margin:0">Unique Tools & Hardware</h2>
+<p style="margin:0">123 Main Street</p>
+</div>
+
+<div style="text-align:right">
+<p><strong>Invoice #:</strong> ${invoiceNumber.innerText}</p>
+<p><strong>Date:</strong> ${invoiceDate.value}</p>
+</div>
+
+</div>
+
+<br>
+
+<p><strong>Customer:</strong> ${customerName.value}</p>
+<p><strong>Phone:</strong> ${customerPhone.value}</p>
+
+<table style="width:100%;border-collapse:collapse;margin-top:15px;text-align:center">
+
+<tr style="background:#DBE2DC">
+<th style="border:1px solid #000;padding:8px">Item</th>
+<th style="border:1px solid #000;padding:8px">Qty</th>
+<th style="border:1px solid #000;padding:8px">Price</th>
+<th style="border:1px solid #000;padding:8px">Total</th>
+</tr>
+
+${itemsHTML.replaceAll("<tr>","<tr style='border:1px solid #000'>").replaceAll("<td>","<td style='border:1px solid #000;padding:8px'>")}
+
+</table>
+
+<div style="margin-top:25px;text-align:right">
+
+<p>Subtotal: ₹ ${subtotal.innerText}</p>
+<p>GST (18%): ₹ ${gst.innerText}</p>
+
+<h3 style="color:#7F543D;border-top:2px solid #335765;padding-top:10px">
+Grand Total: ₹ ${grandTotal.innerText}
+</h3>
+
+</div>
+
+</div>
+`;
+}
+function previewInvoice(){
+
+  // Generate invoice HTML
+  let html = `
+    <div style="
+      border:4px solid #335765;
+      padding:25px;
+      background:white;
+      font-family:Segoe UI;
+    ">
+      ${generateInvoiceHTML()}
+    </div>
+  `;
+
+  // Inject into modal
+  document.getElementById("invoicePreviewContent").innerHTML = html;
+
+  // Show modal
+  let modal = new bootstrap.Modal(
+    document.getElementById("invoicePreviewModal")
+  );
+  modal.show();
+}
+
+function printInvoice(){
+
+let content = generateInvoiceHTML();
+
+let printWindow = window.open('', '', 'width=900,height=700');
+
+printWindow.document.write(`
+<html>
+<head>
+<title>Invoice</title>
+
+<style>
+
+@page{
+size: A4;
+margin: 10mm;
+}
+
+body{
+font-family: Segoe UI;
+margin:0;
+}
+
+.page{
+border:4px solid #335765;
+padding:25px;
+height:95%;
+box-sizing:border-box;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #333;
+padding:6px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body onload="window.print(); window.close();">
+
+<div class="page">
+${content}
+</div>
+
+</body>
+</html>
+`);
+
+printWindow.document.close();
+}
+
+function saveInvoiceData(){
+
+let invoice = {
+invoiceNo: invoiceNumber.innerText,
+customer: customerName.value,
+phone: customerPhone.value,
+date: invoiceDate.value,
+total: grandTotal.innerText
+};
+
+
+let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
+invoices.push(invoice);
+localStorage.setItem("invoices", JSON.stringify(invoices));
+
+alert("Invoice Saved Successfully!");
+}
+
+function signOut(){
+    window.location.href = "login.html";
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="modal fade" id="invoicePreviewModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <div class="modal-header" style="background:#335765;color:white;">
+        <h5 class="modal-title">
+          <i class="fa fa-file-invoice"></i> Invoice Preview
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="invoicePreviewContent"
+           style="background:#f8f9fa;padding:20px;">
+        <!-- Invoice preview injected here -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
