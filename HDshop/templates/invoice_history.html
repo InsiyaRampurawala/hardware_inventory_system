@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 <title>Invoice History</title>
 
-<link rel="stylesheet" href="css/admin_style.css">
+<link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
@@ -11,216 +12,216 @@
 
 body{
 background:#DBE2DC;
-font-family: 'Segoe UI', sans-serif;
+font-family:'Segoe UI', sans-serif;
+overflow-x:hidden;
 }
 
-/* Signout Button */
-.signout-btn{
-position:absolute;
-top:40px;
-right:40px;
-background:#7F543D;
+/* Sidebar */
+
+.sidebar{
+width:220px;
+position:fixed;
+left:0;
+top:0;
+height:100vh;
+background:#335765;
+padding:20px;
 color:white;
-border:none;
-padding:8px 10px;
-border-radius:8px;
 }
 
-.signout-btn:hover{
-background:#6a4531;
+.sidebar a{
+display:block;
+color:white;
+text-decoration:none;
+padding:10px;
+border-radius:6px;
 }
 
-/* Card */
-.history-card{
+.sidebar a:hover{
+background:#74A8A4;
+}
+
+.sidebar a.active-link{
+background:#7F543D;
+}
+
+/* Main Content */
+
+.content-area{
+margin-left:220px;
+padding:35px;
+}
+
+/* Cards */
+
+.card-box{
 background:white;
 border-radius:15px;
 padding:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* Table */
-#invoiceTable{
-font-size:15px;
-}
+/* Buttons */
 
-#invoiceTable thead{
+.btn-filter{
 background:#335765;
 color:white;
 }
 
-.action-btn{
-background:#74A8A4;
+.btn-clear{
+background:#7F543D;
 color:white;
-border:none;
-padding:6px 10px;
-border-radius:6px;
-}
-
-.action-btn:hover{
-background:#5e8e8a;
-}
-
-.filter-box{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:30px;   /* more spacing */
-}
-.filter-btn{
-    background:#335765;
-    color:white;
-    border:none;
-}
-
-.filter-btn:hover{
-    background:#274653;
-}
-
-/* Fix sidebar overlap ONLY for invoice history */
-body {
-    overflow-x: hidden;
-}
-
-
-.container-fluid .row {
-    margin: 0;
-}
-/* Layout fix ONLY for invoice history */
-.layout {
-    display: flex;
-}
-
-.sidebar {
-    width: 220px;
-    background: #335765;
-    color: white;
-    min-height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-}
-
-.sidebar a {
-    color: white;
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-}
-
-.sidebar a:hover {
-    background: #74A8A4;
-}
-
-.content-area {
-    margin-left: 220px;
-    width: calc(100% - 220px);
-}
-
-
-
-.filter-btn{
-    background:#335765;
-    color:white;
-}
-
-.filter-btn:hover{
-    background:#274653;
-}
-
-.clear-btn{
-    background:#7F543D;
-    color:white;
-}
-
-.clear-btn:hover{
-    background:#5e3c2b;
 }
 
 </style>
 </head>
 
+
 <body>
 
-<div class="layout">
+<!-- Sidebar -->
 
-  <div class="col-md-2 inventory-sidebar p-3">
+<div class="sidebar">
 
-<h4>Unique Tools and Hardware</h4>
-<hr>
-<a href="{% url 'dashboard' %}">Dashboard</a>
-<a href="{% url 'inventory' %}">Inventory</a>
-<a href="{% url 'billing' %}">Billing</a>
-<a href="{% url 'reports' %}">Reports</a>
-<a href="{% url 'invoice_history' %}">Invoice History</a>
-<a href="{% url 'users' %}">Users</a>
+<h5 class="mb-4">Unique Tools & Hardware</h5>
+
+<a href="{% url 'dashboard' %}">
+<i class="fa fa-home me-2"></i>Dashboard
+</a>
+
+<a href="{% url 'inventory' %}">
+<i class="fa fa-box me-2"></i>Inventory
+</a>
+
+<a href="{% url 'billing' %}">
+<i class="fa fa-file-invoice me-2"></i>Billing
+</a>
+
+<a href="{% url 'reports' %}">
+<i class="fa fa-chart-line me-2"></i>Reports
+</a>
+
+<a href="{% url 'invoice_history' %}" class="active-link">
+<i class="fa fa-clock me-2"></i>Invoice History
+</a>
+
+<a href="{% url 'users' %}">
+<i class="fa fa-users me-2"></i>Users
+</a>
 
 </div>
 
-    <div class="content-area p-4">
-    
 
-<button class="signout-btn">
-<i class="fa fa-right-from-bracket"></i> Sign Out
-</button>
+<!-- Content -->
 
+<div class="content-area">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+<div>
 <h2 style="color:#335765;">Invoice History</h2>
 <p class="text-muted">Manage and track all invoices</p>
+</div>
 
-<!-- Search & Date Filter -->
-<div class="filter-box">
-
-    <div class="row g-3 align-items-center">
-
-        <div class="col-lg-5 col-md-5">
-            <input type="text" id="searchInput"
-                   class="form-control"
-                   placeholder="Search by invoice number or customer name...">
-        </div>
-
-        <div class="col-lg-3 col-md-3">
-            <input type="date" id="dateFilter"
-                   class="form-control">
-        </div>
-
-        <div class="col-lg-2 col-md-2">
-            <button class="btn w-100 filter-btn"
-                    onclick="filterInvoices()">
-                <i class="fa fa-filter"></i> Filter
-            </button>
-        </div>
-
-        <div class="col-lg-2 col-md-2">
-            <button class="btn w-100 clear-btn"
-                    onclick="clearFilters()">
-                Clear
-            </button>
-        </div>
-
-    </div>
+<button class="btn btn-clear">
+<i class="fa fa-sign-out-alt"></i> Sign Out
+</button>
 
 </div>
 
 
+<!-- Search Filter -->
+
+<div class="card-box mb-4">
+
+<div class="row g-3 align-items-center">
+
+<div class="col-md-6">
+<input type="text" class="form-control" placeholder="Search by invoice number or customer name...">
+</div>
+
+<div class="col-md-3">
+<input type="date" class="form-control">
+</div>
+
+<div class="col-md-2">
+<button class="btn btn-filter w-100">
+<i class="fa fa-filter me-1"></i> Filter
+</button>
+</div>
+
+<div class="col-md-1">
+<button class="btn btn-clear w-100">
+Clear
+</button>
+</div>
+
+</div>
+
+</div>
 
 
 <!-- Table -->
-<div class="history-card">
 
-<table class="table align-middle" id="invoiceTable">
+<div class="card-box">
+
+<table class="table table-hover">
 
 <thead>
+
+<tbody>
+
+{% for invoice in invoices %}
+
 <tr>
-<th>Invoice #</th>
-<th>Date</th>
-<th>Customer</th>
-<th>Items</th>
-<th>Total ₹</th>
-<th>Actions</th>
+<td>{{ invoice.invoice_no }}</td>
+<td>{{ invoice.date }}</td>
+<td>{{ invoice.customer }}</td>
+<td>{{ invoice.items }}</td>
+<td>₹ {{ invoice.total }}</td>
+
+<td>
+<button class="btn btn-sm btn-success">
+<i class="fa fa-eye"></i>
+</button>
+</td>
 
 </tr>
+
+{% endfor %}
+
+</tbody>
+
 </thead>
 
-<tbody id="invoiceBody">
-<!-- Dynamic Data -->
+<tbody>
+
+<tr>
+<td>INV-101127</td>
+<td>2026-06-10</td>
+<td>Munira</td>
+<td>2</td>
+<td>1171</td>
+<td>
+<button class="btn btn-sm btn-success">
+<i class="fa fa-eye"></i>
+</button>
+</td>
+</tr>
+
+<tr>
+<td>INV-107128</td>
+<td>2026-06-11</td>
+<td>Ahmed Khan</td>
+<td>2</td>
+<td>540</td>
+<td>
+<button class="btn btn-sm btn-success">
+<i class="fa fa-eye"></i>
+</button>
+</td>
+</tr>
+
 </tbody>
 
 </table>
@@ -228,186 +229,6 @@ body {
 </div>
 
 </div>
-</div>
-</div>
-
-<!-- PREVIEW MODAL -->
-<div class="modal fade" id="previewModal">
-<div class="modal-dialog modal-lg modal-dialog-scrollable">
-<div class="modal-content">
-
-<div class="modal-header" style="background:#335765;color:white;">
-<h5>Invoice Preview</h5>
-<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-</div>
-
-<div class="modal-body" id="previewContent">
-</div>
-
-</div>
-</div>
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-
-// Load saved invoices
-function loadInvoices(){
-
-let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
-let tbody = document.getElementById("invoiceBody");
-tbody.innerHTML = "";
-
-invoices.forEach((inv,index)=>{
-
-let itemCount = inv.items ? inv.items.length : 0;
-
-tbody.innerHTML += `
-<tr>
-<td>${inv.invoiceNo}</td>
-<td>${inv.date}</td>
-<td>${inv.customer}</td>
-<td>${itemCount}</td>
-<td>${inv.total}</td>
-<td>
-<button class="action-btn" onclick="previewInvoice(${index})">
-<i class="fa fa-eye"></i>
-</button>
-</td>
-</tr>
-`;
-
-
-});
-}
-
-function previewInvoice(index){
-
-let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
-let inv = invoices[index];
-
-let modalContent = `
-<div class="invoice-preview-container">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h3 class="invoice-title">Unique Tools & Hardware</h3>
-            <p class="mb-0">409, MIDC, Rabale, Navi Mumbai</p>
-            <p class="mb-0">Phone: +91 8108982572</p>
-        </div>
-        <div class="text-end">
-            <h4>${inv.invoiceNo}</h4>
-            <p class="mb-0"><strong>Date:</strong> ${inv.date}</p>
-        </div>
-    </div>
-
-    <hr>
-
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <div class="info-box">
-                <h6>Customer</h6>
-                <p class="mb-0">${inv.customer}</p>
-                <p class="mb-0">${inv.phone}</p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="info-box text-end">
-                <h6>Total Amount</h6>
-                <h4>₹ ${inv.total}</h4>
-            </div>
-        </div>
-    </div>
-
-    <h5 class="mt-4">Items</h5>
-
-    <table class="table table-bordered text-center mt-2">
-        <thead style="background:#DBE2DC">
-            <tr>
-                <th>Item</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Rotary Hammer Drill</td>
-                <td>1</td>
-                <td>₹ 145</td>
-                <td>₹ 145</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="text-end mt-3">
-        <p>Subtotal: ₹ ${inv.total}</p>
-        <p>GST (18%): Included</p>
-        <h4 style="color:#7F543D">Grand Total: ₹ ${inv.total}</h4>
-    </div>
-
-</div>
-`;
-
-document.getElementById("previewContent").innerHTML = modalContent;
-
-new bootstrap.Modal(document.getElementById("previewModal")).show();
-}
-
-
-
-// Search + Date Filter
-function filterInvoices(){
-
-let search = document.getElementById("searchInput").value.toLowerCase();
-let date = document.getElementById("dateFilter").value;
-
-let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
-let tbody = document.getElementById("invoiceBody");
-tbody.innerHTML="";
-
-invoices.forEach((inv,index)=>{
-
-if(
-(inv.invoiceNo.toLowerCase().includes(search) ||
-inv.customer.toLowerCase().includes(search)) &&
-(!date || inv.date === date)
-){
-
-let itemCount = inv.items ? inv.items.length : 0;
-
-tbody.innerHTML += `
-<tr>
-<td>${inv.invoiceNo}</td>
-<td>${inv.date}</td>
-<td>${inv.customer}</td>
-<td>${itemCount}</td>
-<td>${inv.total}</td>
-<td>
-<button class="action-btn" onclick="previewInvoice(${index})">
-<i class="fa fa-eye"></i>
-</button>
-</td>
-</tr>
-`;
-}
-
-});
-
-}
-
-
-loadInvoices();
-function clearFilters(){
-    document.getElementById("searchInput").value = "";
-    document.getElementById("dateFilter").value = "";
-    loadInvoices();  // reload all invoices
-}
-
-</script>
 
 </body>
 </html>

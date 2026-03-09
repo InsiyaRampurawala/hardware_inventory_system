@@ -3,10 +3,13 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),   # first page
+    path('', views.index, name='index'),
+
+    path('product-list/', views.product_list, name='product_list'),
+    path('product-detail/', views.product_detail, name='product_detail'),
     path('login/', views.login, name='login'),
+    path('enquire/', views.enquire, name='enquire'),
     path('register/', views.register, name='register'),
     path('users/', views.users, name='users'),   
     path('dashboard/', views.dashboard, name='dashboard'),

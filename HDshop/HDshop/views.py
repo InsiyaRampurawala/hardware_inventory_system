@@ -2,33 +2,75 @@ from django.shortcuts import render, redirect
 from .models import Product, RegisterUser
 
 
-# ---------------- INDEX ----------------
+from django.shortcuts import render
+
 def index(request):
     return render(request, 'index.html')
 
+def product_list(request):
+    return render(request, 'product_list.html')
+def product_detail(request):
+    name = request.GET.get('name')
+    image = request.GET.get('image')
+    desc = request.GET.get('desc')
 
-# ---------------- LOGIN ----------------
+    context = {
+        'name': name,
+        'image': image,
+        'desc': desc
+    }
+
+    return render(request, 'product_detail.html', context)
 def login(request):
+    return render(request,'login.html')
+def enquire(request):
+    return render(request,'enquire.html')
+    
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+def inventory(request):
 
     if request.method == "POST":
 
+      Product.objects.create(
+    product_id=request.POST.get('product_id'),
+    name=request.POST.get('name'),
+    description=request.POST.get('description'),
+    category_id=request.POST.get('category_id'),
+    category=request.POST.get('category'),
+    size=request.POST.get('size'),
+    quantity=request.POST.get('quantity'),
+    price=request.POST.get('price'),
+    image=request.FILES.get('image')
+)
+
+    products = Product.objects.all()
+
+    return render(request,'inventory.html',{'products':products})
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login
+
+# ---------------- LOGIN ----------------
+from django.shortcuts import render, redirect
+
+def login(request):
+    if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Fixed admin login
+        # Admin login
         if email == "admin@gmail.com" and password == "admin123":
-            request.session['admin'] = True
             return redirect('dashboard')
 
-        # Normal user login
-        user = RegisterUser.objects.filter(email=email, password=password).first()
-
-        if user:
-            return redirect('index')
-
-        return render(request, 'login.html', {'error': 'Invalid credentials'})
+        # User login
+        else:
+            return redirect('enquire')
 
     return render(request, 'login.html')
+
+        
 
 
 # ---------------- REGISTER ----------------
@@ -65,38 +107,57 @@ def dashboard(request):
 
 
 # ---------------- INVENTORY ----------------
-def inventory(request):
+from .models import Product
 
-    if not request.session.get('admin'):
-        return redirect('index')
+def inventory(request):
 
     if request.method == "POST":
 
+        name = request.POST.get("name")
+        price = request.POST.get("price")
+        stock = request.POST.get("stock")
+
         Product.objects.create(
-            product_id=request.POST.get('product_id'),
-            name=request.POST.get('name'),
-            description=request.POST.get('description'),
-            category_id=request.POST.get('category_id'),
-            category=request.POST.get('category'),
-            size=request.POST.get('size'),
-            quantity=request.POST.get('quantity'),
-            price=request.POST.get('price'),
-            image=request.FILES.get('image')
+            name=name,
+            price=price,
+            stock=stock
         )
 
     products = Product.objects.all()
 
-    return render(request, 'inventory.html', {'products': products})
+    return render(request,"inventory.html",{"products":products})
 
 
 # ---------------- BILLING ----------------
+from django.shortcuts import render, redirect
+from .models import Invoice
+
 def billing(request):
 
-    if not request.session.get('admin'):
-        return redirect('index')
+    if request.method == "POST":
+
+        invoice_no = request.POST.get('invoice_no')
+        date = request.POST.get('date')
+        customer = request.POST.get('customer')
+        items = request.POST.get('items')
+        total = request.POST.get('total')
+
+        Invoice.objects.create(
+            invoice_no=invoice_no,
+            date=date,
+            customer=customer,
+            items=items,
+            total=total
+        )
+
+        return redirect('invoice_history')
 
     return render(request, 'billing.html')
+def billing(request):
 
+    products = Product.objects.all()
+
+    return render(request,"billing.html",{"products":products})
 
 # ---------------- REPORTS ----------------
 def reports(request):
@@ -110,10 +171,9 @@ def reports(request):
 # ---------------- INVOICE HISTORY ----------------
 def invoice_history(request):
 
-    if not request.session.get('admin'):
-        return redirect('index')
+    invoices = Invoice.objects.all()
 
-    return render(request, 'invoice_history.html')
+    return render(request,'invoice_history.html',{'invoices':invoices})
 
 
 # ---------------- USERS ----------------

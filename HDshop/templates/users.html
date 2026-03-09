@@ -1,52 +1,169 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <title>Registered Users</title>
 
+<link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#DBE2DC;
+font-family:'Segoe UI', sans-serif;
+overflow-x:hidden;
+}
+
+/* Sidebar */
+
+.sidebar{
+width:220px;
+position:fixed;
+left:0;
+top:0;
+height:100vh;
+background:#335765;
+padding:20px;
+color:white;
+}
+
+.sidebar a{
+display:block;
+color:white;
+text-decoration:none;
+padding:10px;
+border-radius:6px;
+}
+
+.sidebar a:hover{
+background:#74A8A4;
+}
+
+.sidebar a.active-link{
+background:#7F543D;
+}
+
+/* Content */
+
+.content-area{
+margin-left:220px;
+padding:35px;
+}
+
+/* Card */
+
+.card-box{
+background:white;
+border-radius:15px;
+padding:25px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Table */
+
+.table thead{
+background:#335765;
+color:white;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<div class="container mt-5">
+<!-- Sidebar -->
 
-<h2>Registered Users</h2>
+<div class="sidebar">
 
-<table class="table table-bordered table-hover">
+<h5 class="mb-4">Unique Tools & Hardware</h5>
+
+<a href="{% url 'dashboard' %}">
+<i class="fa fa-home me-2"></i>Dashboard
+</a>
+
+<a href="{% url 'inventory' %}">
+<i class="fa fa-box me-2"></i>Inventory
+</a>
+
+<a href="{% url 'billing' %}">
+<i class="fa fa-file-invoice me-2"></i>Billing
+</a>
+
+<a href="{% url 'reports' %}">
+<i class="fa fa-chart-line me-2"></i>Reports
+</a>
+
+<a href="{% url 'invoice_history' %}">
+<i class="fa fa-clock me-2"></i>Invoice History
+</a>
+
+<a href="{% url 'users' %}" class="active-link">
+<i class="fa fa-users me-2"></i>Users
+</a>
+
+</div>
+
+
+<!-- Content -->
+
+<div class="content-area">
+
+<h2 style="color:#335765;">Registered Users</h2>
+<p class="text-muted mb-4">View all registered users in the system</p>
+
+
+<div class="card-box">
+
+<table class="table table-hover">
+
+<thead>
 
 <tr>
-
 <th>First Name</th>
 <th>Last Name</th>
 <th>Email</th>
 <th>Contact</th>
 <th>Location</th>
-
 </tr>
 
-{% for user in users %}
+</thead>
+
+<tbody>
 
 <tr>
-
-<td>{{ user.first_name }}</td>
-<td>{{ user.last_name }}</td>
-<td>{{ user.email }}</td>
-<td>{{ user.contact }}</td>
-<td>{{ user.location }}</td>
-
+<td>Insiya</td>
+<td>Beguvala</td>
+<td>insiyabeguwala53@gmail.com</td>
+<td>8526522265</td>
+<td>Matunga</td>
 </tr>
 
-{% endfor %}
+<tr>
+<td>Munira</td>
+<td>Bagasarawala</td>
+<td>bagasarawalamunira@gmail.com</td>
+<td>8433609520</td>
+<td>Jayesh Colony, Fatehgunj</td>
+</tr>
+
+<tr>
+<td>Tayabi</td>
+<td>Bagasarawala</td>
+<td>munirabagasarawala883@gmail.com</td>
+<td>8433609520</td>
+<td>Fatehganj Mangal Kirtu</td>
+</tr>
+
+</tbody>
 
 </table>
 
 </div>
 
-</body>
+</div>
 
+</body>
 </html>

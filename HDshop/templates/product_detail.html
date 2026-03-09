@@ -1,6 +1,7 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-{% load static %}
+
 <head>
 <title>Product Detail</title>
 <link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
@@ -10,14 +11,18 @@
 <div class="product-detail-container">
 
     <div class="product-image">
-        <img id="productImage">
+        
+       
     </div>
 
     <div class="product-info">
-        <h2 id="productName"></h2>
-        <p id="productDesc"></p>
+       <h2>{{ name }}</h2>
 
-        <a href="login.html?redirect=enquire.html">
+<img src="{% static image %}" width="200">
+
+<p>{{ desc }}</p>
+
+        <a href="{% url 'login' %}?redirect=e{% url 'enquire' %}">
     <button class="enquire-btn">Enquire Now</button>
 </a>
     </div>
