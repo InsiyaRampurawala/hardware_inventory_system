@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-
+{% load static %}
 <head>
 <title>Product Detail</title>
-<link rel="stylesheet" href="admin_style.css">
+<link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
 </head>
 
 <body>
@@ -31,22 +31,22 @@
 <div class="suggest-grid">
 
     <div class="suggest-card">
-        <img src="images/drill.jpg">
+        <img src="{% static 'images/drill.jpg' %}">
         <p>Drill Machine</p>
     </div>
 
     <div class="suggest-card">
-        <img src="images/wrench.jpg">
+        <img src="{% static 'images/wrench.jpg' %}">
         <p>Wrench</p>
     </div>
 
     <div class="suggest-card">
-        <img src="images/blades.jpg">
+        <img src="{% static 'images/blades.jpg' %}">
         <p>Blades</p>
     </div>
 
     <div class="suggest-card">
-        <img src="images/grinding.jpg">
+        <img src="{% static 'images/grinding.jpg' %}">
         <p>Grinding Tool</p>
     </div>
 

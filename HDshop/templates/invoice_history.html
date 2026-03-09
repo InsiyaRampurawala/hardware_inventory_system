@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Invoice History</title>
+
+<link rel="stylesheet" href="css/admin_style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background:#DBE2DC;
+font-family: 'Segoe UI', sans-serif;
+}
+
+/* Signout Button */
+.signout-btn{
+position:absolute;
+top:40px;
+right:40px;
+background:#7F543D;
+color:white;
+border:none;
+padding:8px 10px;
+border-radius:8px;
+}
+
+.signout-btn:hover{
+background:#6a4531;
+}
+
+/* Card */
+.history-card{
+background:white;
+border-radius:15px;
+padding:20px;
+}
+
+/* Table */
+#invoiceTable{
+font-size:15px;
+}
+
+#invoiceTable thead{
+background:#335765;
+color:white;
+}
+
+.action-btn{
+background:#74A8A4;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+}
+
+.action-btn:hover{
+background:#5e8e8a;
+}
+
+.filter-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:30px;   /* more spacing */
+}
+.filter-btn{
+    background:#335765;
+    color:white;
+    border:none;
+}
+
+.filter-btn:hover{
+    background:#274653;
+}
+
+/* Fix sidebar overlap ONLY for invoice history */
+body {
+    overflow-x: hidden;
+}
+
+
+.container-fluid .row {
+    margin: 0;
+}
+/* Layout fix ONLY for invoice history */
+.layout {
+    display: flex;
+}
+
+.sidebar {
+    width: 220px;
+    background: #335765;
+    color: white;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar a {
+    color: white;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+.sidebar a:hover {
+    background: #74A8A4;
+}
+
+.content-area {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+}
+
+
+
+.filter-btn{
+    background:#335765;
+    color:white;
+}
+
+.filter-btn:hover{
+    background:#274653;
+}
+
+.clear-btn{
+    background:#7F543D;
+    color:white;
+}
+
+.clear-btn:hover{
+    background:#5e3c2b;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <div class="sidebar p-3">
+        <h4><i class="fa fa-toolbox"></i> Unique Tools & Hardware</h4>
+        <hr>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="billing.html">Billing</a>
+        <a href="reports.html">Reports</a>
+                <a href="invoice_history.html">Invoice History</a>
+
+    </div>
+
+    <div class="content-area p-4">
+    
+
+<button class="signout-btn">
+<i class="fa fa-right-from-bracket"></i> Sign Out
+</button>
+
+<h2 style="color:#335765;">Invoice History</h2>
+<p class="text-muted">Manage and track all invoices</p>
+
+<!-- Search & Date Filter -->
+<div class="filter-box">
+
+    <div class="row g-3 align-items-center">
+
+        <div class="col-lg-5 col-md-5">
+            <input type="text" id="searchInput"
+                   class="form-control"
+                   placeholder="Search by invoice number or customer name...">
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+            <input type="date" id="dateFilter"
+                   class="form-control">
+        </div>
+
+        <div class="col-lg-2 col-md-2">
+            <button class="btn w-100 filter-btn"
+                    onclick="filterInvoices()">
+                <i class="fa fa-filter"></i> Filter
+            </button>
+        </div>
+
+        <div class="col-lg-2 col-md-2">
+            <button class="btn w-100 clear-btn"
+                    onclick="clearFilters()">
+                Clear
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- Table -->
+<div class="history-card">
+
+<table class="table align-middle" id="invoiceTable">
+
+<thead>
+<tr>
+<th>Invoice #</th>
+<th>Date</th>
+<th>Customer</th>
+<th>Items</th>
+<th>Total ₹</th>
+<th>Actions</th>
+
+</tr>
+</thead>
+
+<tbody id="invoiceBody">
+<!-- Dynamic Data -->
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal fade" id="previewModal">
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+<div class="modal-content">
+
+<div class="modal-header" style="background:#335765;color:white;">
+<h5>Invoice Preview</h5>
+<button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body" id="previewContent">
+</div>
+
+</div>
+</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+// Load saved invoices
+function loadInvoices(){
+
+let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
+let tbody = document.getElementById("invoiceBody");
+tbody.innerHTML = "";
+
+invoices.forEach((inv,index)=>{
+
+let itemCount = inv.items ? inv.items.length : 0;
+
+tbody.innerHTML += `
+<tr>
+<td>${inv.invoiceNo}</td>
+<td>${inv.date}</td>
+<td>${inv.customer}</td>
+<td>${itemCount}</td>
+<td>${inv.total}</td>
+<td>
+<button class="action-btn" onclick="previewInvoice(${index})">
+<i class="fa fa-eye"></i>
+</button>
+</td>
+</tr>
+`;
+
+
+});
+}
+
+function previewInvoice(index){
+
+let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
+let inv = invoices[index];
+
+let modalContent = `
+<div class="invoice-preview-container">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h3 class="invoice-title">Unique Tools & Hardware</h3>
+            <p class="mb-0">409, MIDC, Rabale, Navi Mumbai</p>
+            <p class="mb-0">Phone: +91 8108982572</p>
+        </div>
+        <div class="text-end">
+            <h4>${inv.invoiceNo}</h4>
+            <p class="mb-0"><strong>Date:</strong> ${inv.date}</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <div class="info-box">
+                <h6>Customer</h6>
+                <p class="mb-0">${inv.customer}</p>
+                <p class="mb-0">${inv.phone}</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="info-box text-end">
+                <h6>Total Amount</h6>
+                <h4>₹ ${inv.total}</h4>
+            </div>
+        </div>
+    </div>
+
+    <h5 class="mt-4">Items</h5>
+
+    <table class="table table-bordered text-center mt-2">
+        <thead style="background:#DBE2DC">
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Rotary Hammer Drill</td>
+                <td>1</td>
+                <td>₹ 145</td>
+                <td>₹ 145</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-end mt-3">
+        <p>Subtotal: ₹ ${inv.total}</p>
+        <p>GST (18%): Included</p>
+        <h4 style="color:#7F543D">Grand Total: ₹ ${inv.total}</h4>
+    </div>
+
+</div>
+`;
+
+document.getElementById("previewContent").innerHTML = modalContent;
+
+new bootstrap.Modal(document.getElementById("previewModal")).show();
+}
+
+
+
+// Search + Date Filter
+function filterInvoices(){
+
+let search = document.getElementById("searchInput").value.toLowerCase();
+let date = document.getElementById("dateFilter").value;
+
+let invoices = JSON.parse(localStorage.getItem("invoices")) || [];
+let tbody = document.getElementById("invoiceBody");
+tbody.innerHTML="";
+
+invoices.forEach((inv,index)=>{
+
+if(
+(inv.invoiceNo.toLowerCase().includes(search) ||
+inv.customer.toLowerCase().includes(search)) &&
+(!date || inv.date === date)
+){
+
+let itemCount = inv.items ? inv.items.length : 0;
+
+tbody.innerHTML += `
+<tr>
+<td>${inv.invoiceNo}</td>
+<td>${inv.date}</td>
+<td>${inv.customer}</td>
+<td>${itemCount}</td>
+<td>${inv.total}</td>
+<td>
+<button class="action-btn" onclick="previewInvoice(${index})">
+<i class="fa fa-eye"></i>
+</button>
+</td>
+</tr>
+`;
+}
+
+});
+
+}
+
+
+loadInvoices();
+function clearFilters(){
+    document.getElementById("searchInput").value = "";
+    document.getElementById("dateFilter").value = "";
+    loadInvoices();  // reload all invoices
+}
+
+</script>
+
+</body>
+</html>

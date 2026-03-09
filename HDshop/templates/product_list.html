@@ -2,10 +2,10 @@
 <html>
 <head>
 <title>All Products</title>
-<link rel="stylesheet" href="admin_style.css">
+<link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
 </head>
 
-
+{% load static %}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -62,67 +62,67 @@ body{
 <div class="product-grid">
 
 <div class="product-card">
-<img src="images/hammer.jpg">
+<img src="{% static 'images/hammer.jpg' %}">
 <h3>Hammer</h3>
 <a href="product_detail.html?name=Hammer&image=images/hammer.jpg&desc=Durable steel hammer designed for precision striking and construction tasks">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/drill.jpg">
+<img src="{% static 'images/drill.jpg' %}">
 <h3>Drill Machine</h3>
 <a href="product_detail.html?name=Drill Machine&image=images/drill.jpg&desc=Powerful drill machine designed for drilling holes in wood metal and concrete">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/bandsaw.jpg">
+<img src="{% static 'images/bandsaw.jpg' %}">
 <h3>Bandsaw</h3>
 <a href="product_detail.html?name=Bandsaw&image=images/bandsaw.jpg&desc=Heavy duty bandsaw used for cutting metal wood and other materials">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/blades.jpg">
+<img src="{% static 'images/blades.jpg' %}">
 <h3>Blades</h3>
 <a href="product_detail.html?name=Blades&image=images/blades.jpg&desc=High quality industrial blades designed for precise and efficient cutting">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/buffing.jpg">
+<img src="{% static 'images/buffing.jpg' %}">
 <h3>Bluffing Tool</h3>
 <a href="product_detail.html?name=Bluffing Tool&image=images/buffing.jpg&desc=Buffing tool used for polishing and finishing metal surfaces smoothly">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/cutter.jpg">
+<img src="{% static 'images/cutter.jpg' %}">
 <h3>Cutter</h3>
 <a href="product_detail.html?name=Cutter&image=images/cutter.jpg&desc=Industrial cutter used for precise cutting of metals plastics and other materials">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/grinding.jpg">
+<img src="{% static 'images/grinding.jpg' %}">
 <h3>Grinding Tool</h3>
 <a href="product_detail.html?name=Grinding Tool&image=images/grinding.jpg&desc=Grinding tool used for sharpening smoothing and finishing metal surfaces">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/hob.jpg">
+<img src="{% static 'images/hob.jpg' %}">
 <h3>Hob Cutter</h3>
 <a href="product_detail.html?name=Hob Cutter&image=images/hob.jpg&desc=Precision hob cutter used in gear cutting and machining operations">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/sleeve.jpg">
+<img src="{% static 'images/sleeve.jpg' %}">
 <h3>Sleeve</h3>
 <a href="product_detail.html?name=Sleeve&image=images/sleeve.jpg&desc=Machine sleeve used to support rotating shafts and ensure proper alignment">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/tap.jpg">
+<img src="{% static 'images/tap.jpg' %}">
 <h3>Tap</h3>
 <a href="product_detail.html?name=Tap&image=images/tap.jpg&desc=Threading tap tool used to create internal threads for bolts and screws">View Details</a>
 </div>
 
 <div class="product-card">
-<img src="images/wrench.jpg">
+<img src="{% static 'images/wrench.jpg' %}">
 <h3>Wrench</h3>
 <a href="product_detail.html?name=Wrench&image=images/wrench.jpg&desc=Adjustable wrench used for tightening and loosening nuts and bolts">View Details</a>
 </div>
