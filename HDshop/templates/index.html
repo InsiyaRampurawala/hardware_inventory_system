@@ -47,11 +47,11 @@ background:#DBE2DC;border-radius:15px;padding:20px;text-align:center;
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg bg-light px-4 sticky-top">
 <div class="container-fluid">
-<a class="navbar-brand fw-bold" href="index.html">Unique Tools</a>
+<a class="navbar-brand fw-bold" href="{% url 'index' %}">Unique Tools</a>
 
 <ul class="navbar-nav ms-4">
 <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="product_list.html">Products</a></li>
+<li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}">Products</a></li>
 <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
 </ul>
@@ -73,7 +73,7 @@ background:#DBE2DC;border-radius:15px;padding:20px;text-align:center;
 <h1>Quality Tools for Every Job</h1>
 <p>Discover professional-grade tools and hardware built to last.</p>
 
-<a href="product_list.html" class="btn" style="background:#7F543D;color:white;">View Catalogue</a>
+<a href="{% url 'product_list' %}" class="btn" style="background:#7F543D;color:white;">View Catalogue</a>
 </div>
 </section>
 
@@ -96,7 +96,7 @@ background:#DBE2DC;border-radius:15px;padding:20px;text-align:center;
 <div class="col-md-3"><div class="category-card"><i class="fa fa-wrench"></i><h5>Accessories</h5></div></div>
 </div>
 <div class="text-center mt-4">
-<a href="product_list.html" class="btn" style="background:#74A8A4;color:white;">View All Products</a>
+<a href="{% url 'product_list' %}">View Products</a>
 </div>
 </section>
 

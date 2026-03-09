@@ -2,9 +2,30 @@ from django.shortcuts import render, redirect
 from .models import Product
 
 
+from django.shortcuts import render
+
 def index(request):
     return render(request, 'index.html')
 
+def product_list(request):
+    return render(request, 'product_list.html')
+def product_detail(request):
+    name = request.GET.get('name')
+    image = request.GET.get('image')
+    desc = request.GET.get('desc')
+
+    context = {
+        'name': name,
+        'image': image,
+        'desc': desc
+    }
+
+    return render(request, 'product_detail.html', context)
+def login(request):
+    return render(request,'login.html')
+def enquire(request):
+    return render(request, 'enquire.html')
+    
 def dashboard(request):
     return render(request, 'dashboard.html')
 
