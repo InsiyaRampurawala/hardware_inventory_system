@@ -51,6 +51,7 @@
 <a href="{% url 'billing' %}">Billing</a>
 <a href="{% url 'reports' %}">Reports</a>
 <a href="{% url 'invoice_history' %}">Invoice History</a>
+<a href="{% url 'users' %}">Users</a>
 
 </div>
 
@@ -116,7 +117,11 @@ onchange="filterCategory()">
 <tr>
 
 <td>
-<img src="{{ product.image.url }}" class="inventory-img" onclick="previewImage(this)">
+{% if product.image %}
+<img src="{{ product.image.url }}" class="inventory-img">
+{% else %}
+<img src="{% static 'images/default.png' %}" class="inventory-img">
+{% endif %}
 </td>
 
 <td>{{ product.id }}</td>

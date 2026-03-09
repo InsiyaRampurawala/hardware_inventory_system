@@ -407,3 +407,38 @@ height: 100vh;
 margin: 0;
 font-family: Arial, sans-serif;
 }
+.login-btn{
+    padding:10px 20px;
+    font-size:16px;
+    border-radius:6px;
+}
+.dashboard-sidebar{
+    background:#335765;
+    color:white;
+    min-height:100vh;
+}
+
+.dashboard-sidebar a{
+    display:block;
+    padding:12px;
+    margin-bottom:5px;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.dashboard-sidebar a:hover{
+    background:#74A8A4;
+}
+.dashboard-sidebar{
+    height:100vh;
+}
+.form-control{
+margin-bottom:10px;
+padding:10px;
+}
+
+.btn{
+padding:10px 20px;
+margin-top:5px;
+}

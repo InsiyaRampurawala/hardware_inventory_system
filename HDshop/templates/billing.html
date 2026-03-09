@@ -34,17 +34,17 @@ width:35px;
 <div class="row">
 
 <!-- Sidebar -->
-<div class="col-md-2 sidebar p-3">
-<h4><i class="fa fa-toolbox"></i>Unique Tools and Hardware </h4>
+<div class="col-md-2 dashboard-sidebar p-3">
+
+<h4>Unique Tools and Hardware</h4>
 <hr>
-<a href="dashboard.html">Dashboard</a>
-<a href="inventory.html">Inventory</a>
-<a href="billing.html">Billing</a>
-<a href="reports.html">Reports</a>
 
-
-<a href="invoice_history.html">Invoice History</a>
-
+<a href="{% url 'dashboard' %}">Dashboard</a>
+<a href="{% url 'inventory' %}">Inventory</a>
+<a href="{% url 'billing' %}">Billing</a>
+<a href="{% url 'reports' %}">Reports</a>
+<a href="{% url 'invoice_history' %}">Invoice History</a>
+<a href="{% url 'users' %}">Users</a>
 </div>
 
 <div class="col-md-10 p-4">

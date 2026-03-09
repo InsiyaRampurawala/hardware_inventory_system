@@ -4,28 +4,30 @@
 <title>Create Account</title>
 
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'css/admin_style.css' %}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+
 body{
     margin:0;
     font-family:'Poppins', sans-serif;
 }
 
-/* BACKGROUND WITH OVERLAY */
+/* BACKGROUND */
 .auth-bg{
     min-height:100vh;
     background:
         linear-gradient(rgba(51,87,101,0.75), rgba(51,87,101,0.75)),
-        url("images/login-pg-bg.png") center/cover no-repeat;
+        url("{% static 'images/login-pg-bg.png' %}") center/cover no-repeat;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
-/* REGISTER CARD */
+/* CARD */
 .auth-card{
     background:#DBE2DC;
     padding:35px;
@@ -47,10 +49,7 @@ body{
     padding:12px;
     border-radius:8px;
     border:1px solid #ccc;
-}
-
-.auth-card textarea{
-    resize:none;
+    margin-bottom:12px;
 }
 
 /* BUTTON */
@@ -61,6 +60,7 @@ body{
     border-radius:8px;
     border:none;
     font-weight:500;
+    width:100%;
 }
 
 .btn-register:hover{
@@ -68,6 +68,7 @@ body{
 }
 
 </style>
+
 </head>
 
 <body>
@@ -78,60 +79,102 @@ body{
 
 <h3>Create Account</h3>
 
-<form method="POST">
+<form method="POST" onsubmit="return validateForm()">
 {% csrf_token %}
-<div class="row g-3">
 
-<div class="col-md-6">
-<input type="text" class="form-control" placeholder="First Name" required>
-</div>
+<input type="text" name="first_name" id="first_name"
+placeholder="First Name" class="form-control" required>
 
-<div class="col-md-6">
-<input type="text" class="form-control" placeholder="Last Name" required>
-</div>
+<input type="text" name="last_name" id="last_name"
+placeholder="Last Name" class="form-control" required>
 
-<div class="col-md-6">
-<input type="text" class="form-control" placeholder="Contact Number" required>
-</div>
+<input type="email" name="email" id="email"
+placeholder="Email Address" class="form-control" required>
 
-<div class="col-md-6">
-<input type="email" class="form-control" placeholder="Email" required>
-</div>
+<input type="password" name="password" id="password"
+placeholder="Password" class="form-control" required>
 
-<div class="col-md-12">
-<textarea class="form-control" rows="2" placeholder="Address" required></textarea>
-</div>
+<input type="text" name="contact" id="contact"
+placeholder="Contact Number" class="form-control" required>
 
-<div class="col-md-12">
-<input type="password" class="form-control" placeholder="Password" required>
-</div>
+<textarea name="location" id="location"
+placeholder="Location / Address" class="form-control" rows="3" required></textarea>
 
-<div class="col-md-12 mt-2">
-<button type="submit" class="btn btn-register w-100">
+<button type="submit" class="btn-register">
 Register
 </button>
-</div>
-
-</div>
 
 </form>
 
-<div class="text-center mt-3">
-<a href="login.html">Already have an account?</a>
-</div>
+<br>
+
+<p class="text-center">Already have an account?</p>
+
+<a href="{% url 'login' %}" class="btn btn-primary w-100">
+Login Here
+</a>
 
 </div>
 
 </div>
+
+<script>
+
+function validateForm(){
+
+let firstName = document.getElementById("first_name").value.trim();
+let lastName = document.getElementById("last_name").value.trim();
+let email = document.getElementById("email").value.trim();
+let password = document.getElementById("password").value.trim();
+let contact = document.getElementById("contact").value.trim();
+let location = document.getElementById("location").value.trim();
+
+/* First Name Validation */
+if(firstName.length < 2 || firstName.length > 20){
+alert("First name must be at least 2 characters");
+return false;
+}
+
+/* Last Name Validation */
+if(lastName.length < 2 || lastName.length > 20){
+alert("Last name must be at least 2 characters");
+return false;
+}
+
+/* Email Validation */
+//* Email Validation (.com only) */
+
+let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.(com)$/;
+
+if(!emailPattern.test(email)){
+alert("Email must end with .com (example: user@gmail.com)");
+return false;
+}
+/* Password Validation */
+if(password.length < 3 || password.length > 20){
+alert("Password must be at least 6 characters");
+return false;
+}
+
+/* Contact Validation */
+/* Contact Validation */
+let phonePattern = /^[6789][0-9]{9}$/;
+
+if(!contact.match(phonePattern)){
+alert("Contact number must be 10 digits and start with 6, 7, 8, or 9");
+return false;
+}
+/* Location Validation */
+if(location.length < 3 || location.length > 100){
+alert("Location must be at least 3 characters");
+return false;
+}
+
+return true;
+
+}
+
+</script>
 
 </body>
 </html>
-
-<script>
-document.querySelector("form").addEventListener("submit", function(e){
-    e.preventDefault();
-    window.location.href = "enquire.html";
-});
-</script>
-
-

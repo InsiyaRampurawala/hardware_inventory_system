@@ -58,9 +58,11 @@ background:#DBE2DC;border-radius:15px;padding:20px;text-align:center;
 
 <div class="d-flex ms-auto">
 <input class="form-control me-2" placeholder="Search tools..." style="width:200px;">
-<button onclick="window.location.href='login.html'">Login</button>
+<a href="{% url 'login' %}" class="btn btn-primary login-btn">
+    Login
+</a>
 
-<a href="register.html" class="btn" style="background:#7F543D;color:white;">Sign Up</a>
+<a href="{% url 'register' %}" class="btn btn-success"style="background:#7F543D;color:white;">Sign Up</a>
 </div>
 </div>
 </nav>
